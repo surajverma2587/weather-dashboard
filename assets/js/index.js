@@ -55,6 +55,18 @@ const getWeatherData = async (cityName) => {
   };
 };
 
+const getUVIClassName = function (uvi) {
+  if (uvi >= 0 && uvi < 3) {
+    return "btn-success";
+  } else if (uvi >= 3 && uvi < 6) {
+    return "btn-warning";
+  } else if (uvi >= 6 && uvi < 8) {
+    return "btn-danger";
+  } else {
+    return "btn-dark";
+  }
+};
+
 const setCitiesInLS = function (cityName) {
   // get cities from LS
   const cities = JSON.parse(localStorage.getItem("recentCities")) ?? [];
@@ -73,13 +85,17 @@ const renderCurrentWeatherCard = function (currentData) {
   const currentWeatherCard = `<div class="card-body bg-white border mb-2">
     <h2 class="card-title">
         ${currentData.name} ${currentData.date}
-        <img src="https://openweathermap.org/img/w/${currentData.iconCode}.png" />
+        <img src="https://openweathermap.org/img/w/${
+          currentData.iconCode
+        }.png" />
     </h2>
     <p class="card-text">Temp: ${currentData.temperature}&deg;F</p>
     <p class="card-text">Wind: ${currentData.wind} MPH</p>
     <p class="card-text">Humidity: ${currentData.humidity}%</p>
     <p class="card-text">
-        UV index: <span class="btn btn-primary">${currentData.uvi}</span>
+        UV index: <span class="btn ${getUVIClassName(currentData.uvi)}">${
+    currentData.uvi
+  }</span>
     </p>
     </div>`;
 
